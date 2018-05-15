@@ -9,12 +9,14 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 /**
  * Created by LaunchCode
  */
-public class JobData {
+public class
+JobData {
 
     private static final String DATA_FILE = "resources/job_data.csv";
     private static Boolean isDataLoaded = false;
@@ -72,11 +74,12 @@ public class JobData {
 
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
+
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            if (aValue.toLowerCase().contains(value)) {
                 jobs.add(row);
             }
         }
@@ -123,6 +126,26 @@ public class JobData {
             System.out.println("Failed to load job data");
             e.printStackTrace();
         }
+    }
+    public static ArrayList<HashMap<String,String>> findByValue(String searchTerm) {
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (HashMap<String, String> jobEntry : allJobs) {
+            for (Map.Entry<String, String> row : jobEntry.entrySet()) {
+                String aSearchTerm = row.getValue();
+
+                if (aSearchTerm.toLowerCase().contains(searchTerm)) {
+                    jobs.add(jobEntry);
+                    break;
+                }
+
+            }
+
+        }
+        return jobs;
+
     }
 
 }
